@@ -9,7 +9,7 @@ body{
 form{
     margin: auto;
     background-color: #171616  ;
-    width: 35vw;
+    width: 30vw;
     border-radius: 2vh;
     box-shadow: -34px -34px 68px #010202,
     34px 34px 68px #2f2e2e;
@@ -49,4 +49,8 @@ button.bottom:hover{
     color: #ddd;
     box-shadow: -10px -10px 50px #2f2e2e,
     10px 10px 50px #ddd;
+}
+
+p{
+    color: white;
 }
