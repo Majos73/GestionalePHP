@@ -20,7 +20,7 @@
         $_SESSION['strCodice'] = substr($strRandom, 0, 6); #estraggo 6 caratteri dalla stringa, volendo posso arrivare fino a 32 o estrarne meno
         echo $_SESSION['strCodice'];
         #mail($_SESSION['mail'], "OTP accesso account", $_SESSION['strCodice']);
-        header('refresh: 5;url= loginOTP.php');
+        header('location: loginOTP.php');
     }
     ?>
 
@@ -30,7 +30,7 @@
         <input type="mail" name="mail" id="mail" placeholder="Email" class="form-control w-75" pattern="(?:prof|ata|)[a-z0-9.]{2,61}@darzo.net" required>
         <input type="submit" value="Invio" class="form-control w-25" style="background-color: #ddd;" />
     </form>
-    <button class="btn bottom">Guest</button>
+    <input class="btn bottom" type="submit" value="Guest">
 </body>
 
 </html>
