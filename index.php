@@ -11,7 +11,21 @@
 </head>
 
 <body>
-    <form action="<? $_SERVER['PHP_SELF'] ?>" method="POST" class="mb-3" onsubmit="return OTPCode();">
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        session_start();
+        $_SESSION['mail'] = $_POST['mail'];
+        $_SESSION['TS'] = time();
+        $strRandom = md5(microtime()); #creo stringa random da 32 caratteri dal timestamp
+        $_SESSION['strCodice'] = substr($strRandom, 0, 6); #estraggo 6 caratteri dalla stringa, volendo posso arrivare fino a 32 o estrarne meno
+        echo $_SESSION['strCodice'];
+        #mail($_SESSION['mail'], "OTP accesso account", $_SESSION['strCodice']);
+        header('refresh: 5;url= loginOTP.php');
+    }
+    ?>
+
+
+    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" class="mb-3" onsubmit="return OTPCode();">
         <h1>Login</h1>
         <input type="mail" name="mail" id="mail" placeholder="Email" class="form-control w-75" pattern="(?:prof|ata|)[a-z0-9.]{2,61}@darzo.net" required>
         <input type="submit" value="Invio" class="form-control w-25" style="background-color: #ddd;" />
@@ -20,16 +34,3 @@
 </body>
 
 </html>
-
-<?php
-if (!$flagOTP) {
-    $flagOTP = true;
-    $_SESSION['mail'] = $_POST['mail'];
-    $_SESSION['TS'] = time();
-    $strRandom = md5(microtime()); #creo stringa random da 32 caratteri dal timestamp
-    $_SESSION['strCodice'] = substr($strRandom, 0, 30); #estraggo 6 caratteri dalla stringa, volendo posso arrivare fino a 32 o estrarne meno
-    #mail($_SESSION['mail'], "OTP accesso account", $_SESSION['strCodice']);
-    echo ("<script>console.log(<?$_SESSION[mail]?>);</script>");
-    header('location: loginOTP.php');
-}
-?>
