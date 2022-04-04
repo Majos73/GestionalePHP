@@ -16,21 +16,35 @@
         session_start();
         $_SESSION['mail'] = $_POST['mail'];
         $_SESSION['TS'] = time();
-        $strRandom = md5(microtime()); #creo stringa random da 32 caratteri dal timestamp
-        $_SESSION['strCodice'] = substr($strRandom, 0, 6); #estraggo 6 caratteri dalla stringa, volendo posso arrivare fino a 32 o estrarne meno
+        $strRandom = md5(microtime());
+        $_SESSION['strCodice'] = substr($strRandom, 0, 6);
         echo $_SESSION['strCodice'];
         #mail($_SESSION['mail'], "OTP accesso account", $_SESSION['strCodice']);
         header('location: loginOTP.php');
     }
+
+    function setGuest(){
+        session_start();
+        $_SESSION['mail'] = "guest";
+        $_SESSION['TS'] = time();
+        header('location: homepage.php');
+    }
     ?>
 
+    <script>
+        function callGuest(){
+            
+        }
+    </script>
 
-    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" class="mb-3" onsubmit="return OTPCode();">
+    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" class="mb-3">
         <h1>Login</h1>
         <input type="mail" name="mail" id="mail" placeholder="Email" class="form-control w-75" pattern="(?:prof|ata|)[a-z0-9.]{2,61}@darzo.net" required>
         <input type="submit" value="Invio" class="form-control w-25" style="background-color: #ddd;" />
     </form>
-    <input class="btn bottom" type="submit" value="Guest">
+    <button class="btn bottom" type="submit" onclick="<?php echo setGuest();?> ">Guest</button>
+
+
 </body>
 
 </html>
