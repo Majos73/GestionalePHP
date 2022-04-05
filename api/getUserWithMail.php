@@ -4,24 +4,26 @@
     header("Access-Control-Allow-Methods: POST");
     header("Access-Control-Max-Age: 3600");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-    
     include_once '../config/database.php';
     include_once '../class/employees.php';
-    
     $database = new Database();
     $db = $database->getConnection();
-    
     $item = new Employee($db);
-    
-    $data = json_decode(file_get_contents("php://input"));
-    
-    $item->mail = $data->mail;
-
-    $item->id = $data->id;
-    
-    if($item->deleteEmployee()){
-        echo json_encode("Employee deleted.");
-    } else{
-        echo json_encode("Data could not be deleted");
+    $item->id = isset($_GET['mail']) ? $_GET['mail'] : die();
+  
+    $item->getSingleUser();
+    if($item->name != null){
+        // create array
+        $emp_arr = array(
+            "email" => $item->email
+        );
+      
+        http_response_code(200);
+        echo json_encode($emp_arr);
+    }
+      
+    else{
+        http_response_code(404);
+        echo json_encode("Employee not found.");
     }
 ?>

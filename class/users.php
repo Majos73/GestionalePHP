@@ -59,30 +59,20 @@ class Employee
         return false;
     }
     // READ single
-    public function getSingleEmployee()
+    public function getSingleUser()
     {
         $sqlQuery = "SELECT
-                        id, 
-                        name, 
-                        email, 
-                        age, 
-                        designation, 
-                        created
+                        id
                       FROM
                         " . $this->db_table . "
                     WHERE 
-                       id = ?
+                       mail = ?
                     LIMIT 0,1";
         $stmt = $this->conn->prepare($sqlQuery);
-        $stmt->bindParam(1, $this->id);
+        $stmt->bindParam(1, $this->mail);
         $stmt->execute();
         $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $this->name = $dataRow['name'];
-        $this->email = $dataRow['email'];
-        $this->age = $dataRow['age'];
-        $this->designation = $dataRow['designation'];
-        $this->created = $dataRow['created'];
+        $this->id = $dataRow['id'];
     }
     // UPDATE
     public function updateEmployee()
