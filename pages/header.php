@@ -7,3 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../grafica.css">
+    <script>
+        function noSession (){
+            alert("Purtroppo non hai ancora effettuato l'accesso, verrai reindirizzato alla pagina per il login");
+        }
+    </script>
