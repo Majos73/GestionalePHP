@@ -1,10 +1,10 @@
 <?php
 class Database
 {
-    private $host = "sql11.freesqldatabase.com";
-    private $database_name = "sql11478095";
-    private $username = "sql11478095";
-    private $password = "MgJTgx4WEC";
+    private $host = "localhost";
+    private $database_name = "gestionale";
+    private $username = "root";
+    private $password = "";
     public $conn;
     public function getConnection()
     {

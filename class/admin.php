@@ -1,5 +1,5 @@
 <?php
-class User
+class Admin
 {
     // Connection
     private $conn;
@@ -16,7 +16,7 @@ class User
     {
         $this->conn = $db;
     }
-    public function getControlUser()
+    public function getControlAdmin()
     {
         $sqlQuery = "SELECT
                         ID_User, liv
@@ -39,21 +39,43 @@ class User
                 $this->cognome = $arrayMail[0];
                 $this->nome = $arrayMail[1];
             }
-            $this->createUser();
-            return 1;
+
+            $this->controlAdmin();
+            $this->createAdmin();
+
+            return $this->liv;
         }
         return $dataRow['liv'];
     }
 
+    public function controlAdmin()
+    {
+        $sqlQuery = "SELECT
+                        ID_User
+                      FROM
+                        " . $this->db_table . "
+                    WHERE 
+                       liv = 10
+                    LIMIT 0,1";
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->execute();
+        $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$dataRow)
+            $this->liv = 10;
+        else
+            $this->liv = 1;
+    }
+
     // CREATE
-    public function createUser()
+    public function createAdmin()
     {
         $sqlQuery = "INSERT INTO
                         " . $this->db_table . "
                     SET
                         nome = ?, 
                         cognome = ?,
-                        mail = ?";
+                        mail = ?,
+                        liv = ?";
 
         $stmt = $this->conn->prepare($sqlQuery);
 
@@ -62,7 +84,7 @@ class User
         $this->mail = htmlspecialchars(strip_tags($this->mail));
         $this->cognome = htmlspecialchars(strip_tags($this->cognome));
 
-        if ($stmt->execute(array($this->nome, $this->cognome, $this->mail))) {
+        if ($stmt->execute(array($this->nome, $this->cognome, $this->mail, $this->liv))) {
             return true;
         }
         return false;
