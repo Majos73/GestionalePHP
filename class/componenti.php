@@ -1,10 +1,10 @@
 <?php
-class Admin
+class Componenti
 {
     // Connection
     private $conn;
     // Table
-    private $db_table = "users";
+    private $db_table = "componenti";
     // Columns
     public $id;
     public $nome;

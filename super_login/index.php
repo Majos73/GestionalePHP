@@ -74,8 +74,11 @@ $oggAdmin = new Admin($db);
         } else {
             if ($_POST['otp'] == $_SESSION['strCodice']) {
                 $oggAdmin->mail = $_SESSION['mail'];
-                $_SESSION['liv'] = $oggAdmin->getControlAdmin();/*
-                echo "<script>corretto();</script>";*/
+                $arrayDati = $oggAdmin->getControlAdmin();
+                $_SESSION['nome'] = $arrayDati[0];
+                $_SESSION['cognome'] = $arrayDati[1];
+                $_SESSION['liv'] = $arrayDati[2];
+                echo "<script>corretto();</script>";
                 header("refresh:0;url=../pages/homepage.php");
             } else {
                 echo "<script>errore();</script>";

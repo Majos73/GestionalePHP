@@ -74,8 +74,10 @@ $oggUser = new User($db);
         } else {
             if ($_POST['otp'] == $_SESSION['strCodice']) {
                 $oggUser->mail = $_SESSION['mail'];
-                $liv = $oggUser->getControlUser();
-                $_SESSION['liv'] = $liv;
+                $arrayDati = $oggUser->getControlUser();
+                $_SESSION['nome'] = $arrayDati[0];
+                $_SESSION['cognome'] = $arrayDati[1];
+                $_SESSION['liv'] = $arrayDati[2];
                 echo "<script>corretto();</script>";
                 header("refresh:0;url=./pages/homepage.php");
             } else {

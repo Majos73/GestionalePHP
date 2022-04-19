@@ -1,0 +1,117 @@
+body {
+    background-color: #f0f0f0;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+header {
+    color: #f0f0f0;
+    width: 100vw;
+    height: 10vh;
+    background-color: #171616;
+    position: relative;
+}
+
+header div {
+    height: 10vh;
+    line-height: 10vh;
+    font-size: 150%;
+    font-weight: bold;
+    margin-left: 5vh;
+    position: absolute;
+}
+
+header button {
+    height: 10vh;
+    width: 10vh;
+    float: right;
+    margin-right: 5vh;
+    background-color: transparent;
+    border: none;
+}
+
+header button img {
+    height: 4.5vh;
+    width: 4.5vh;
+}
+
+button.collegamenti {
+    margin: 5vw;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    height: 23vh;
+    width: 43vh;
+    text-decoration: none;
+    font-size: 100%;
+    color: #f0f0f0;
+    background-color: #171616;
+    -webkit-box-shadow: 10px 10px #2f2e2e;
+    box-shadow: 10px 10px #2f2e2e;
+}
+
+button.collegamenti img {
+    height: 15vh;
+    width: 15vh;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-right: 2vw;
+}
+
+footer {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    height: 6vh;
+    background-color: #171616;
+    width: 100vw;
+    color: #f0f0f0;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+footer div {
+    height: 6vh;
+    line-height: 6vh;
+    margin-left: 5vh;
+    margin-right: auto;
+}
+
+footer img {
+    height: 4vh;
+    width: 4vh;
+    margin-right: 5vh;
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+a {
+    text-decoration: none;
+    color: #f0f0f0;
+}
+
+a:hover {
+    color: #e0e0e0;
+    text-decoration: none;
+}
+
+a:focus {
+    color: #e0e0e0;
+    text-decoration: none;
+}
+
+.container-table {
+    width: 80vw;
+    margin: auto;
+    margin-top: 10vh;
+}
+
+thead.dark {
+    background-color: #171616;
+    color: #f0f0f0;
+}

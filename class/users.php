@@ -40,9 +40,11 @@ class User
                 $this->nome = $arrayMail[1];
             }
             $this->createUser();
-            return 1;
+            $this->liv = 1;
+            return array(0 => $this->nome, 1 => $this->cognome, 2 => $this->liv);
         }
-        return $dataRow['liv'];
+        $arrayDati = $this->getUser();
+        return $arrayDati;
     }
 
     // CREATE
@@ -103,17 +105,20 @@ class User
         return false;
     }
 
+    public function getUser()
+    {
+        $sqlQuery = "SELECT nome, cognome, liv FROM " . $this->db_table . " WHERE mail=? LIMIT 0,1";
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->execute(array($this->mail));
+        $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        return array(0 => $dataRow['nome'], 1 => $dataRow['cognome'], 2 => $dataRow['liv']);
+    }
     //Funzioni base da modificare
 
 
 
-    public function getUsers()
-    {
-        $sqlQuery = "SELECT id, email, age, designation, created FROM " . $this->db_table . "";
-        $stmt = $this->conn->prepare($sqlQuery);
-        $stmt->execute();
-        return $stmt;
-    }
+
+
 
     // READ single
     public function getSingleUser()
