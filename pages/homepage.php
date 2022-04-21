@@ -6,20 +6,6 @@ include("header.php");
 
 <body>
 
-    <script>
-        function componenti() {
-            window.location.href = "./comPage.php";
-        }
-
-        function closeSession() {
-            if (confirm("Effettuare il logout?") == true) {
-                navigator.sendBeacon("../api/closeSession.php");
-
-                window.location.href = "../index.php";
-            }
-        }
-    </script>
-
     <?php
     include("./navbar.php");
     ?>

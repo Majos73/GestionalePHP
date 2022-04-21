@@ -2,8 +2,6 @@
 include("header.php");
 ?>
 <title>Componenti</title>
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
 <body>
@@ -27,7 +25,7 @@ include("header.php");
             <tbody>
                 <tr>
                     <th>
-                        <a href="#modale" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                    <i class="fa-solid fa-eye"></i>
                     </th>
                     <th>Position</th>
                     <th>Office</th>

@@ -7,13 +7,12 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
-        });
-    </script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <script src="https://kit.fontawesome.com/8af7af9e14.js" crossorigin="anonymous"></script>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,8 +21,23 @@
         function noSession() {
             alert("Purtroppo non hai ancora effettuato l'accesso, verrai reindirizzato alla pagina per il login");
         }
-    </script>
 
+        function componenti() {
+            window.location.href = "./comPage.php";
+        }
+
+        function closeSession() {
+            if (confirm("Effettuare il logout?") == true) {
+                navigator.sendBeacon("../api/closeSession.php");
+
+                window.location.href = "../index.php";
+            }
+        }
+
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
     <?php
     session_start();
     if ($_SESSION['mail'] == null) {

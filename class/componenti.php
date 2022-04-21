@@ -16,37 +16,7 @@ class Componenti
     {
         $this->conn = $db;
     }
-    public function getControlAdmin()
-    {
-        $sqlQuery = "SELECT
-                        ID_User, liv
-                      FROM
-                        " . $this->db_table . "
-                    WHERE 
-                       mail = ?
-                    LIMIT 0,1";
-        $stmt = $this->conn->prepare($sqlQuery);
-        $stmt->bindParam(1, $this->mail);
-        $stmt->execute();
-        $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$dataRow) {
-            $arrayMail = explode("@", $this->mail);
-            $arrayMail = explode(".", $arrayMail[0]);
-            if ($arrayMail[0] == "ata" || $arrayMail[0] == "prof") {
-                $this->cognome = $arrayMail[1];
-                $this->nome = $arrayMail[2];
-            } else {
-                $this->cognome = $arrayMail[0];
-                $this->nome = $arrayMail[1];
-            }
-
-            $this->controlAdmin();
-            $this->createAdmin();
-            return array(0 => $this->nome, 1 => $this->cognome, 2 => $this->liv);
-        }
-        return $this->getUsers();
-    }
-
+    
     public function controlAdmin()
     {
         $sqlQuery = "SELECT
