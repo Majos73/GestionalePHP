@@ -2,19 +2,23 @@
 include("header.php");
 ?>
 <title>Homepage</title>
+
+<script>
+</script>
 </head>
 
 <body>
 
     <?php
-    include("./navbar.php");
+    include("./firstNavbar.php");
+    include("./secondNavbar.php");
     ?>
 
-    <button class="collegamenti" onclick="componenti()"><img src="../immagini/componente.png" alt="Componenti">Componenti</button>
+    <button class="collegamenti" onclick="location.href='./componenti/comPage.php'"><img src="../immagini/componente.png" alt="Componenti">Componenti</button>
     <button class="collegamenti"><img src="../immagini/computer.png" alt="Dispositivo Informatico">Device</button>
-    <button class="collegamenti"><img src="../immagini/strumento.png" alt="Componenti">Strumenti</button>
-    <button class="collegamenti"><img src="../immagini/locali.png" alt="Componenti">Locali</button>
-    <button class="collegamenti"><img src="../immagini/armadietto.png" alt="Componenti">Armadietti</button>
+    <button class="collegamenti"><img src="../immagini/strumento.png" alt="Strumenti">Strumenti</button>
+    <button class="collegamenti" onclick="location.href='./locali/locPage.php'"><img src="../immagini/locali.png" alt="Locali">Locali</button>
+    <button class="collegamenti" onclick="location.href='./armadietti/armPage.php'"><img src="../immagini/armadietto.png" alt="Armadietti">Armadietti</button>
     <?php
     if ($_SESSION['liv'] == 10)
         echo ('<button class="collegamenti"><img src="../immagini/users.png" alt="Utenti">Utenti</button>');

@@ -8,32 +8,63 @@ body {
 header {
     color: #f0f0f0;
     width: 100vw;
-    height: 10vh;
+    height: 8vh;
     background-color: #171616;
     position: relative;
 }
 
 header div {
-    height: 10vh;
-    line-height: 10vh;
+    height: 8vh;
+    line-height: 8vh;
     font-size: 150%;
     font-weight: bold;
     margin-left: 5vh;
     position: absolute;
 }
 
-header button {
-    height: 10vh;
-    width: 10vh;
+header button.logout {
+    height: 8vh;
+    width: 8vh;
     float: right;
     margin-right: 5vh;
     background-color: transparent;
     border: none;
+    background-image: url("../immagini/logout.png");
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-header button img {
-    height: 4.5vh;
-    width: 4.5vh;
+
+header nav {
+    color: #f0f0f0;
+    height: 8vh;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+header nav button {
+    color: #f0f0f0;
+    margin: 0;
+    padding-right: 1vw;
+    padding-left: 1vw;
+    height: 4vh;
+    line-height: 4vh;
+    background-color: transparent;
+    border: none;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+header nav button.aggiunte {
+    border-right: 1px solid #f0f0f0;
+}
+
+header nav button i {
+    color: #f0f0f0;
+    margin-left: 0.3vw;
 }
 
 button.collegamenti {
@@ -109,9 +140,16 @@ a:focus {
     width: 80vw;
     margin: auto;
     margin-top: 10vh;
+    margin-bottom: 10vh;
 }
+
 
 thead.dark {
     background-color: #171616;
     color: #f0f0f0;
+}
+
+i {
+    margin-right: 1vw;
+    color: black;
 }

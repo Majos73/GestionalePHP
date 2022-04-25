@@ -1,88 +1,111 @@
 <?php
-class Employee
+class Locali
 {
     // Connection
     private $conn;
     // Table
-    private $db_table = "Employee";
+    private $db_table = "locali";
     // Columns
     public $id;
-    public $name;
-    public $email;
-    public $age;
-    public $designation;
-    public $created;
+    public $locale;
     // Db connection
     public function __construct($db)
     {
         $this->conn = $db;
     }
-    // GET ALL
-    public function getEmployees()
-    {
-        $sqlQuery = "SELECT id, name, email, age, designation, created FROM " . $this->db_table . "";
-        $stmt = $this->conn->prepare($sqlQuery);
-        $stmt->execute();
-        return $stmt;
-    }
+
+
     // CREATE
-    public function createEmployee()
+    public function createLocale()
     {
         $sqlQuery = "INSERT INTO
                         " . $this->db_table . "
                     SET
-                        name = :name, 
-                        email = :email, 
-                        age = :age, 
-                        designation = :designation, 
-                        created = :created";
+                        locale = ?";
 
         $stmt = $this->conn->prepare($sqlQuery);
 
         // sanitize
-        $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->age = htmlspecialchars(strip_tags($this->age));
-        $this->designation = htmlspecialchars(strip_tags($this->designation));
-        $this->created = htmlspecialchars(strip_tags($this->created));
-
-        // bind data
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":age", $this->age);
-        $stmt->bindParam(":designation", $this->designation);
-        $stmt->bindParam(":created", $this->created);
+        $this->locale = htmlspecialchars(strip_tags($this->locale));
+        $stmt->bindParam(1, $this->locale);
 
         if ($stmt->execute()) {
             return true;
         }
         return false;
     }
-    // READ single
-    public function getSingleEmployee()
+
+    public function getLocali()
     {
         $sqlQuery = "SELECT
-                        id, 
-                        name, 
-                        email, 
-                        age, 
-                        designation, 
-                        created
+                        ID_Locale, locale
+                      FROM
+                        " . $this->db_table;
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function updateLocale()
+    {
+        $sqlQuery = "UPDATE
+                        " . $this->db_table . "
+                    SET
+                        locale = ?
+                    WHERE 
+                        ID_Locale = ?";
+
+        $stmt = $this->conn->prepare($sqlQuery);
+
+        if ($stmt->execute(array($this->locale, $this->id))) {
+            return true;
+        }
+        return false;
+    }
+
+    function deleteLocale()
+    {
+        $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE ID_Locale = ?";
+        $stmt = $this->conn->prepare($sqlQuery);
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
+        $stmt->bindParam(1, $this->id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public function getUsers()
+    {
+        $sqlQuery = "SELECT nome, cognome, liv FROM " . $this->db_table . " WHERE mail=?";
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->execute(array($this->mail));
+        $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        return array(0 => $dataRow['nome'], 1 => $dataRow['cognome'], 2 => $dataRow['liv']);
+    }
+
+
+    //Funzioni base da modificare
+
+    // READ single
+    public function getSingleLocale()
+    {
+        $sqlQuery = "SELECT
+                        locale
                       FROM
                         " . $this->db_table . "
                     WHERE 
-                       id = ?
+                       ID_Locale = ?
                     LIMIT 0,1";
         $stmt = $this->conn->prepare($sqlQuery);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
         $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $this->name = $dataRow['name'];
-        $this->email = $dataRow['email'];
-        $this->age = $dataRow['age'];
-        $this->designation = $dataRow['designation'];
-        $this->created = $dataRow['created'];
+        return $dataRow['locale'];
     }
     // UPDATE
     public function updateEmployee()
