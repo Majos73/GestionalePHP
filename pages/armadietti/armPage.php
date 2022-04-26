@@ -277,7 +277,7 @@ $datiArmadietti = $oggArm->getArmadietti();
 
         function eliminazione(element) {
             var xhttp = new XMLHttpRequest();
-
+            
             idArmadietto = element.id;
             console.log(idArmadietto);
 
@@ -287,7 +287,9 @@ $datiArmadietti = $oggArm->getArmadietti();
 
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log("Everything is good");
+                    var data = JSON.parse(this.responseText);
+                    if(!data)
+                        alert("Attenzione, rispettare i vincoli di referenzialità.");
                 }
             };
 

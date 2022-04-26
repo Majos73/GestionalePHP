@@ -12,12 +12,22 @@ $database = new Database();
 $db = $database->getConnection();
 
 $oggArm = new Armadietti($db);
+$oggLoc = new Locali($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
 $oggArm->id = $data->idArmadietto;
 
-if ($oggArm->deleteArmadietto()) {
-    echo json_encode("Siamo entrati");
-} else
-    echo json_encode("Non siamo entrati");
+$oggLoc->id = $data->id;
+
+if($oggLoc->controlLocale()){
+    echo json_encode(false);
+}
+else{
+    if ($oggArm->deleteArmadietto()) {
+        echo json_encode("Siamo entrati");
+    } else
+        echo json_encode("Non siamo entrati");
+}
+
+

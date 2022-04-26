@@ -14,6 +14,22 @@ class Locali
         $this->conn = $db;
     }
 
+    public function controlLocale()
+    {
+        $sqlQuery = "SELECT
+                        locale
+                      FROM
+                        " . $this->db_table . " WHERE ID_Locale = ?";
+
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->bindParam(1, $this->id);
+        $stmt->execute();
+        $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($dataRow)
+            return true;
+        return false;
+    }
+
 
     // CREATE
     public function createLocale()

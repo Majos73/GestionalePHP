@@ -23,7 +23,7 @@ $oggUser = new User($db);
 <body>
     <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" class="mb-3" id="form_mail">
         <h1>Login</h1>
-        <input type="mail" name="mail" id="mail" placeholder="Email" class="form-control w-75" pattern="(?:prof\.|ata\.|PROF\.|ATA\.|)[a-zA-Z]{3,30}[\.][a-zA-Z]{3,30}@darzo.net" required>
+        <input type="mail" name="mail" id="mail" placeholder="Email" class="form-control w-75" pattern="(?:prof\.|ata\.|PROF\.|ATA\.|)[a-zA-Z][\.][a-zA-Z]{3,30}@darzo.net" required>
         <input type="submit" value="Invio" name="submit_mail" class="form-control w-25" style="background-color: #ddd;" />
     </form>
 
