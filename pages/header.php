@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/GestionalePHP/pages/graficaPagine.css">
     <script>
         function noSession() {
-            alert("Purtroppo non hai ancora effettuato l'accesso, verrai reindirizzato alla pagina per il login");
+            alert("Purtroppo non hai ancora effettuato l'accesso, verrai reindirizzato alla pagina per il login.");
         }
 
         function closeSession() {

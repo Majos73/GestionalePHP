@@ -210,7 +210,8 @@ $datiLocali = $oggLoc->getLocali();
 
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log("Everything is good");
+                    var data = JSON.parse(this.responseText);
+                    alert(data['Risposta']);
                 }
             };
 
