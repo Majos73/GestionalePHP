@@ -5,19 +5,19 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once("/xampp/htdocs/GestionalePHP/class/locali.php");
+include_once("/xampp/htdocs/GestionalePHP/class/componenti.php");
 include_once '/xampp/htdocs/GestionalePHP/config/database.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$oggLoc = new Locali($db);
+$oggComp = new Componenti($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$oggLoc->id = $data->id;
+$oggComp->id = $data->id;
 
-if ($locale = $oggLoc->getSingleLocale()) {
-    echo json_encode(array("locale" => $locale, "risposta" => true));
+if ($oggComp->deleteComponente()) {
+    echo json_encode("Siamo entrati");
 } else
-    echo json_encode(array("risposta" => false));
+    echo json_encode("Non siamo entrati");

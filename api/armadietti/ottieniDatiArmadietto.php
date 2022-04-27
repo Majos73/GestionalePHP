@@ -16,16 +16,17 @@ $oggArm = new Armadietti($db);
 $data = json_decode(file_get_contents("php://input"));
 
 $oggArm->id = $data->id;
-$oggArm->armadietto = $data->armadietto;
-$oggArm->ripiani = $data->ripiani;
-$oggArm->numPorte = $data->numeroPorte;
-$oggArm->larghezza = $data->larghezza;
-$oggArm->lunghezza = $data->lunghezza;
-$oggArm->altezza = $data->altezza;
-$oggArm->id_locale = $data->id_locale;
 
-
-if ($oggArm->updateArmadietto()) {
-    echo ("Tutto bene");
+if ($armadietto = $oggArm->getSingleArmadietto()) {
+    echo json_encode(array(
+        "nome" => $armadietto['nomeArmadietto'],
+        "ripiani" => $armadietto['ripiani'],
+        "numPorte" => $armadietto['numPorte'],
+        "larghezza" => $armadietto['larghezza'],
+        "lunghezza" => $armadietto['lunghezza'],
+        "altezza" => $armadietto['altezza'],
+        "locale" => $armadietto['ID_Locale'],
+        "risposta" => true
+    ));
 } else
-    echo "Male male";
+    echo json_encode(array("risposta" => false));

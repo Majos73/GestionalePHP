@@ -1,18 +1,20 @@
 <?php
 include("../header.php");
-include_once("/xampp/htdocs/GestionalePHP/class/locali.php");
-include_once("/xampp/htdocs/GestionalePHP/class/armadietti.php");
+include_once("/xampp/htdocs/GestionalePHP/class/componenti.php");
+include_once("/xampp/htdocs/GestionalePHP/class/categorie.php");
+include_once("/xampp/htdocs/GestionalePHP/class/cataloghi.php");
 include_once '/xampp/htdocs/GestionalePHP/config/database.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$oggLoc = new Locali($db);
-$oggArm = new Armadietti($db);
-$datiArmadietti = $oggArm->getArmadietti();
+$oggComp = new Componenti($db);
+$oggCateg = new Categorie($db);
+$oggCatal = new Cataloghi($db);
+$datiComponenti = $oggComp->getComponentiPerTable();
 ?>
 
-<title>Armadietti</title>
+<title>Componenti</title>
 </head>
 
 <body>
@@ -21,8 +23,7 @@ $datiArmadietti = $oggArm->getArmadietti();
     include("../firstNavbar.php");
     ?>
     <nav>
-        <button onclick="location.href='/GestionalePHP/pages/locali/locPage.php'" class="aggiunte">Locali <i class="fa-solid fa-eye"></i></button>
-        <button data-toggle="modal" data-target="#aggiungiArmadietto">Aggiungi Armadietto <i class="fa-solid fa-plus"></i></button>
+        <button data-toggle="modal" data-target="#aggiungiComponente">Aggiungi Componente <i class="fa-solid fa-plus"></i></button>
     </nav>
     <?php
     include("../secondNavbar.php");
@@ -34,42 +35,35 @@ $datiArmadietti = $oggArm->getArmadietti();
             <thead class="dark">
                 <tr>
                     <th>ID</th>
-                    <th>Armadietto</th>
-                    <th>Ripiani</th>
-                    <th>Numero porte</th>
-                    <th>Larghezza</th>
-                    <th>Lunghezza</th>
-                    <th>Altezza</th>
-                    <th>Locale</th>
+                    <th>Componente</th>
+                    <th>Sigla</th>
+                    <th>Categoria</th>
+                    <th>Catalogo</th>
                     <th>Opzioni</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $itemCount = $datiArmadietti->rowCount();
+                $itemCount = $datiComponenti->rowCount();
 
                 if ($itemCount > 0) {
                     $x = 1;
-                    while ($row = $datiArmadietti->fetch(PDO::FETCH_ASSOC)) {
+                    while ($row = $datiComponenti->fetch(PDO::FETCH_ASSOC)) {
                         extract($row);
-                        $oggLoc->id = $row['ID_Locale'];
-
+                        $oggCatal->id = $row['ID_Catalogo'];
+                        $oggCateg->id = $row['ID_Categoria'];
                 ?>
                         <tr>
                             <td> <?= $x ?> </td>
-                            <td> <?= $row['nomeArmadietto'] ?></td>
-                            <td> <?= $row['ripiani'] ?> </td>
-                            <td> <?= $row['numPorte'] ?> </td>
-                            <td> <?= $row['larghezza'] ?> </td>
-                            <td> <?= $row['lunghezza'] ?> </td>
-                            <td> <?= $row['altezza'] ?> </td>
+                            <td> <?= $row['nomeComp'] ?></td>
+                            <td> <?= $row['sigla'] ?> </td>
+                            <td> <?= $oggCateg->getSingleCategoria() ?> </td>
+                            <td> <?= $oggCatal->getSingleCatalogo() ?> </td>
                             <td>
-                                <?= $oggLoc->getSingleLocale() ?> </td>
-                            <td>
-                                <a onclick="inviaID(this); ottieniDati()" data-toggle="modal" data-target="#modificaLocale" id="<?= $row['ID_Armadietto'] ?>">
+                                <a onclick=" ottieniDati()" data-toggle="modal" data-target="#modificaComponente" id="<?= $row['ID_Componente'] ?>">
                                     <i class="fa-solid fa-pencil"></i>
                                 </a>
-                                <a onclick="eliminazione(this)" id="<?= $row['ID_Armadietto'] ?>">
+                                <a onclick="eliminazione(this)" id="<?= $row['ID_Componente'] ?>">
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
                             </td>
@@ -97,68 +91,7 @@ $datiArmadietti = $oggArm->getArmadietti();
         </table>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modificaLocale" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modifica</h5>
-                </div>
-                <form onsubmit="inviaModifica(); return false;">
-                    <div class="modal-body">
-                        <label for="campo_armadietto">Nome dell'armadietto</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="campo_armadietto" id="campo_armadietto" placeholder="Inserire l'armadietto" aria-describedby="basic-addon2">
-                            <span class="input-group-text" id="basic-addon2">Obbligatorio</span>
-                        </div>
-                        <label for="campo_ripiani">Numero ripiani</label>
-                        <input type="number" class="form-control" name="campo_ripiani" id="campo_ripiani" placeholder="Inserire il numero di ripiani">
-                        <label for="campo_numporte">Numero di porte</label>
-                        <input type="number" class="form-control" name="campo_numporte" id="campo_numporte" placeholder="Inserire il numero di porte">
-                        <label for="campo_larghezza">Larghezza</label>
-                        <input type="number" class="form-control" name="campo_larghezza" id="campo_larghezza" placeholder="Inserire la larghezza">
-                        <label for="campo_lunghezza">Lunghezza</label>
-                        <input type="number" class="form-control" name="campo_lunghezza" id="campo_lunghezza" placeholder="Inserire la lunghezza">
-                        <label for="campo_altezza">Altezza</label>
-                        <input type="number" class="form-control" name="campo_altezza" id="campo_altezza" placeholder="Inserire l'altezza">
-                        <label for="campo_idlocale">Locale</label>
-                        <div class="input-group mb-3">
-                            <select class="form-select" name="campo_idlocale" id="campo_idlocale" aria-describedby="basic-addon2">
-                                <?php
-                                $datiLocali = $oggLoc->getLocali();
-                                if ($datiLocali->rowCount() > 0) {
-                                ?>
-                                    <option value="" selected>Scegliere il locale</option>
-                                    <?php
-                                    while ($row = $datiLocali->fetch(PDO::FETCH_ASSOC)) {
-                                        extract($row);
-                                    ?>
-                                        <option value="<?= $row['ID_Locale'] ?>"><?= $row['locale'] ?></option>
-                                        <script>
-                                            console.log(<?= $row['ID_Locale'] ?>)
-                                        </script>
-                                    <?php
-                                    }
-                                } else { ?>
-                                    <option value="" selected>Prima inserire un locale</option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                            <span class="input-group-text" id="basic-addon2">Obbligatorio</span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" onclick="inviaModifica()" name="submit_locale" class="btn btn-primary" data-dismiss="modal">Salva</button>
-                        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="aggiungiArmadietto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="aggiungiComponente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -210,6 +143,67 @@ $datiArmadietti = $oggArm->getArmadietti();
                     </div>
                     <div class="modal-footer">
                         <button type="button" onclick="inviaAggiunta()" name="submit_locale_nuovo" class="btn btn-primary" data-dismiss="modal">Salva</button>
+                        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modificaComponente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modifica</h5>
+                </div>
+                <form onsubmit="inviaModifica(); return false;">
+                    <div class="modal-body">
+                        <label for="campo_armadietto">Nome dell'armadietto</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="campo_armadietto" id="campo_armadietto" placeholder="Inserire l'armadietto" aria-describedby="basic-addon2">
+                            <span class="input-group-text" id="basic-addon2">Obbligatorio</span>
+                        </div>
+                        <label for="campo_ripiani">Numero ripiani</label>
+                        <input type="number" class="form-control" name="campo_ripiani" id="campo_ripiani" placeholder="Inserire il numero di ripiani">
+                        <label for="campo_numporte">Numero di porte</label>
+                        <input type="number" class="form-control" name="campo_numporte" id="campo_numporte" placeholder="Inserire il numero di porte">
+                        <label for="campo_larghezza">Larghezza</label>
+                        <input type="number" class="form-control" name="campo_larghezza" id="campo_larghezza" placeholder="Inserire la larghezza">
+                        <label for="campo_lunghezza">Lunghezza</label>
+                        <input type="number" class="form-control" name="campo_lunghezza" id="campo_lunghezza" placeholder="Inserire la lunghezza">
+                        <label for="campo_altezza">Altezza</label>
+                        <input type="number" class="form-control" name="campo_altezza" id="campo_altezza" placeholder="Inserire l'altezza">
+                        <label for="campo_idlocale">Locale</label>
+                        <div class="input-group mb-3">
+                            <select class="form-select" name="campo_idlocale" id="campo_idlocale" aria-describedby="basic-addon2">
+                                <?php
+                                $datiLocali = $oggLoc->getLocali();
+                                if ($datiLocali->rowCount() > 0) {
+                                ?>
+                                    <option value="" selected>Scegliere il locale</option>
+                                    <?php
+                                    while ($row = $datiLocali->fetch(PDO::FETCH_ASSOC)) {
+                                        extract($row);
+                                    ?>
+                                        <option value="<?= $row['ID_Locale'] ?>"><?= $row['locale'] ?></option>
+                                        <script>
+                                            console.log(<?= $row['ID_Locale'] ?>)
+                                        </script>
+                                    <?php
+                                    }
+                                } else { ?>
+                                    <option value="" selected>Prima inserire un locale</option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <span class="input-group-text" id="basic-addon2">Obbligatorio</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="inviaModifica()" name="submit_locale" class="btn btn-primary" data-dismiss="modal">Salva</button>
                         <button type="reset" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
                     </div>
                 </form>

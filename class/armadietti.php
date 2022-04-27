@@ -20,8 +20,6 @@ class Armadietti
         $this->conn = $db;
     }
 
-
-
     public function controlLocale()
     {
         $sqlQuery = "SELECT
@@ -33,12 +31,10 @@ class Armadietti
         $stmt->bindParam(1, $this->id_locale);
         $stmt->execute();
         $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($dataRow)
+        if ($dataRow)
             return true;
         return false;
     }
-
-
 
     // CREATE
     public function createArmadietto()
@@ -89,18 +85,55 @@ class Armadietti
         return $stmt;
     }
 
-    public function updateLocale()
+    public function getSingleArmadietto()
+    {
+        $sqlQuery = "SELECT
+                        nomeArmadietto, ripiani, numPorte, larghezza, lunghezza, altezza, ID_Locale
+                      FROM
+                        " . $this->db_table . " WHERE ID_Armadietto = ?";
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->bindParam(1, $this->id);
+        $stmt->execute();
+        $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $dataRow;
+    }
+
+    public function updateArmadietto()
     {
         $sqlQuery = "UPDATE
                         " . $this->db_table . "
                     SET
-                        locale = ?
+                        nomeArmadietto = ?,
+                        ripiani = ?, 
+                        numPorte = ?,
+                        larghezza = ?,
+                        lunghezza = ?,
+                        altezza = ?,
+                        ID_Locale = ?
                     WHERE 
-                        ID_Locale = ?";
+                        ID_Armadietto = ?";
 
         $stmt = $this->conn->prepare($sqlQuery);
 
-        if ($stmt->execute(array($this->locale, $this->id))) {
+        $this->armadietto = htmlspecialchars(strip_tags($this->armadietto));
+        $this->ripiani = htmlspecialchars(strip_tags($this->ripiani));
+        $this->numPorte = htmlspecialchars(strip_tags($this->numPorte));
+        $this->larghezza = htmlspecialchars(strip_tags($this->larghezza));
+        $this->lunghezza = htmlspecialchars(strip_tags($this->lunghezza));
+        $this->altezza = htmlspecialchars(strip_tags($this->altezza));
+        $this->id_locale = htmlspecialchars(strip_tags($this->id_locale));
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
+        $stmt->bindParam(1, $this->armadietto);
+        $stmt->bindParam(2, $this->ripiani);
+        $stmt->bindParam(3, $this->numPorte);
+        $stmt->bindParam(4, $this->larghezza);
+        $stmt->bindParam(5, $this->lunghezza);
+        $stmt->bindParam(6, $this->altezza);
+        $stmt->bindParam(7, $this->id_locale);
+        $stmt->bindParam(8, $this->id);
+
+        if ($stmt->execute()) {
             return true;
         }
         return false;
@@ -111,17 +144,20 @@ class Armadietti
         $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE ID_Armadietto = ?";
         $stmt = $this->conn->prepare($sqlQuery);
 
-        //$this->id = htmlspecialchars(strip_tags($this->id));
+        $this->id = htmlspecialchars(strip_tags($this->id));
 
-        //$stmt->bindParam(1, $this->id);
+        $stmt->bindParam(1, $this->id);
 
-        if ($stmt->execute(array($this->id))) {
+        if ($stmt->execute()) {
             return true;
         }
         return false;
     }
 
 
+
+
+    //Funzioni base da modificare
     public function getUsers()
     {
         $sqlQuery = "SELECT nome, cognome, liv FROM " . $this->db_table . " WHERE mail=?";
@@ -130,9 +166,6 @@ class Armadietti
         $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
         return array(0 => $dataRow['nome'], 1 => $dataRow['cognome'], 2 => $dataRow['liv']);
     }
-
-
-    //Funzioni base da modificare
 
     // READ single
     public function getSingleUser()

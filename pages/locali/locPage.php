@@ -48,7 +48,7 @@ $datiLocali = $oggLoc->getLocali();
                             <td> <?= $x ?> </td>
                             <td> <?= $row['locale'] ?> </td>
                             <td>
-                                <a onclick="inviaID(this)" data-toggle="modal" data-target="#modificaLocale" id="<?= $row['ID_Locale'] ?>">
+                                <a onclick="inviaID(this); ottieniDati()" data-toggle="modal" data-target="#modificaLocale" id="<?= $row['ID_Locale'] ?>">
                                     <i class="fa-solid fa-pencil"></i>
                                 </a>
                                 <a onclick="eliminazione(this)" id="<?= $row['ID_Locale'] ?>">
@@ -221,6 +221,28 @@ $datiLocali = $oggLoc->getLocali();
             setTimeout(function() {
                 location.href = "./locPage.php";
             }, 500);
+        }
+
+        function ottieniDati() {
+            var xhttp = new XMLHttpRequest();
+
+            const params = {
+                id: idLocale
+            }
+
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    if (data['risposta'])
+                        document.getElementById('campo_locale').value = data['locale'];
+                    else
+                        alert("Problemi con la richiesta. Riprovare.");
+                }
+            };
+
+            xhttp.open("POST", "/GestionalePHP/api/locali/ottieniDatiLocale.php", true);
+            xhttp.setRequestHeader('Content-type', 'application/json');
+            xhttp.send(JSON.stringify(params));
         }
     </script>
 </body>
