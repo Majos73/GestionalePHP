@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2022 at 10:30 PM
+-- Generation Time: Apr 28, 2022 at 10:01 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -43,7 +43,8 @@ CREATE TABLE `armadietti` (
 --
 
 INSERT INTO `armadietti` (`ID_Armadietto`, `nomeArmadietto`, `ripiani`, `numPorte`, `larghezza`, `lunghezza`, `altezza`, `ID_Locale`) VALUES
-(1, 'Ciaoasdas', 2, 2, 12, 23, 43, 1);
+(1, 'Ciaoasdas', 2, 2, 12, 23, 43, 1),
+(8, 'Ciao', 2, 3, 12, 23, 43, 14);
 
 -- --------------------------------------------------------
 
@@ -107,7 +108,8 @@ CREATE TABLE `componenti` (
 --
 
 INSERT INTO `componenti` (`ID_Componente`, `nomeComp`, `sigla`, `valore`, `umValore`, `valore2`, `umValore2`, `note`, `immagine`, `quantitaMin`, `ID_Categoria`, `ID_Catalogo`) VALUES
-(1, 'ProvaCom', 'AFFS', '0.99', 'MM', '1.22', 'SS', '', '', 1200, 1, 1);
+(1, 'Prova', 'AFFS', '0.99', 'MM', '1.22', 'SS', '', 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Component_video_RCA.jpg', 1200, 1, 1),
+(3, 'dasd', '', '0.00', '', '0.00', '', '', '', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -130,7 +132,12 @@ CREATE TABLE `giacenze` (
 --
 
 INSERT INTO `giacenze` (`ID_Giacenza`, `posizione`, `nomeCassetto`, `quantita`, `quantitaSpann`, `ID_Armadietto`, `ID_Componente`) VALUES
-(1, 'ProvaPosizione', 'CassettoProva', 123, '3/4', 1, 1);
+(1, 'ProvaPosizione', 'CassettoProva', 123, '3/4', 8, 1),
+(2, 'posizione sopra', 'Casseto 1', 123, '3/4', 1, 1),
+(3, 'sotto', 'cassetto 2', 213, 'adasdas', 1, 1),
+(4, 'posizione sopra', 'Casseto 1', 123, '3/4', 8, 1),
+(11, 'sfsdf', 'dsfsdf', 3434, '354', 8, 1),
+(13, 'ProvaPosizione', 'CassettoProva', 123, '3/4', 8, 1);
 
 -- --------------------------------------------------------
 
@@ -149,14 +156,7 @@ CREATE TABLE `locali` (
 
 INSERT INTO `locali` (`ID_Locale`, `locale`) VALUES
 (1, 'ciao'),
-(11, 'locale6'),
-(13, 'locale8'),
-(14, 'sadasd'),
-(15, 'ciao'),
-(16, 'locale1'),
-(17, 'locale8'),
-(18, 'ciao'),
-(19, 'provaLocale');
+(14, 'sadasd');
 
 -- --------------------------------------------------------
 
@@ -245,7 +245,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `armadietti`
 --
 ALTER TABLE `armadietti`
-  MODIFY `ID_Armadietto` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID_Armadietto` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `cataloghi`
@@ -263,13 +263,13 @@ ALTER TABLE `categorie`
 -- AUTO_INCREMENT for table `componenti`
 --
 ALTER TABLE `componenti`
-  MODIFY `ID_Componente` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_Componente` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `giacenze`
 --
 ALTER TABLE `giacenze`
-  MODIFY `ID_Giacenza` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_Giacenza` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `locali`

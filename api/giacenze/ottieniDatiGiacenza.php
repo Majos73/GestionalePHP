@@ -5,19 +5,26 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once("/xampp/htdocs/GestionalePHP/class/locali.php");
+include_once("/xampp/htdocs/GestionalePHP/class/giacenze.php");
 include_once '/xampp/htdocs/GestionalePHP/config/database.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$oggLoc = new Locali($db);
+$oggGiac = new Giacenze($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$oggLoc->id = $data->id;
+$oggGiac->id = $data->id;
 
-if ($locale = $oggLoc->getSingleLocale()) {
-    echo json_encode(array("locale" => $locale, "risposta" => true));
+if ($giacenza = $oggGiac->getSingleGiacenza()) {
+    echo json_encode(array(
+        "posizione" => $giacenza['posizione'],
+        "nomeCassetto" => $giacenza['nomeCassetto'],
+        "quantita" => $giacenza['quantita'],
+        "quantitaSpann" => $giacenza['quantitaSpann'],
+        "idArmadietto" => $giacenza['ID_Armadietto'],
+        "risposta" => true
+    ));
 } else
     echo json_encode(array("risposta" => false));

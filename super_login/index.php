@@ -22,7 +22,7 @@ $oggAdmin = new Admin($db);
 
 <body>
     <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" class="mb-3" id="form_mail">
-        <h1>Login</h1>
+        <h1>Login Amministratore</h1>
         <input type="mail" name="mail" id="mail" placeholder="Email" class="form-control w-75" pattern="(?:prof\.|ata\.|PROF\.|ATA\.|)[a-zA-Z]{3,30}[\.][a-zA-Z]{3,30}@darzo.net" required>
         <input type="submit" value="Invio" name="submit_mail" class="form-control w-25" style="background-color: #ddd;" />
     </form>
@@ -46,6 +46,10 @@ $oggAdmin = new Admin($db);
             alert("Il codice inserito è corretto, verrai indirizzato alla pagina protetta.");
         }
 
+        function loginSbagliato(){
+            alert("Pagina di login sbagliata, verrai reindirizzato.");
+        }
+
         function change() {
             document.getElementById("form_mail").style.display = "none";
             document.getElementById("form_otp").style.display = "block";
@@ -60,6 +64,11 @@ $oggAdmin = new Admin($db);
         $_SESSION['strCodice'] = substr(md5(microtime()), 0, 6);
         echo $_SESSION['strCodice'];
         #mail($_SESSION['mail'], "OTP accesso account", $_SESSION['strCodice']);
+        $oggAdmin->mail = $_POST['mail'];
+        if($oggAdmin->controlMail() < 10 || !$oggAdmin->controlMail()){
+            echo "<script>loginSbagliato()</script>";
+            header("refresh:0;url=../index.php");
+        }
         echo "<script>change();</script>";
     }
 

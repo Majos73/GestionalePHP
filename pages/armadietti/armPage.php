@@ -22,7 +22,13 @@ $datiArmadietti = $oggArm->getArmadietti();
     ?>
     <nav>
         <button onclick="location.href='/GestionalePHP/pages/locali/locPage.php'" class="aggiunte">Locali <i class="fa-solid fa-eye"></i></button>
-        <button data-toggle="modal" data-target="#aggiungiArmadietto">Aggiungi Armadietto <i class="fa-solid fa-plus"></i></button>
+
+        <?php
+        if ($_SESSION['liv'] == 10) { ?>
+            <button data-toggle="modal" data-target="#aggiungiArmadietto">Aggiungi Armadietto <i class="fa-solid fa-plus"></i></button>
+        <?php
+        }
+        ?>
     </nav>
     <?php
     include("../secondNavbar.php");
@@ -41,7 +47,13 @@ $datiArmadietti = $oggArm->getArmadietti();
                     <th>Lunghezza</th>
                     <th>Altezza</th>
                     <th>Locale</th>
-                    <th>Opzioni</th>
+                    <?php
+                    if ($_SESSION['liv'] == 10) {
+                    ?>
+                        <th>Opzioni</th>
+                    <?php
+                    }
+                    ?>
                 </tr>
             </thead>
             <tbody>
@@ -65,14 +77,20 @@ $datiArmadietti = $oggArm->getArmadietti();
                             <td> <?= $row['altezza'] ?> </td>
                             <td>
                                 <?= $oggLoc->getSingleLocale() ?> </td>
-                            <td>
-                                <a onclick="inviaID(this); ottieniDati()" data-toggle="modal" data-target="#modificaLocale" id="<?= $row['ID_Armadietto'] ?>">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                                <a onclick="eliminazione(this)" id="<?= $row['ID_Armadietto'] ?>">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
-                            </td>
+                            <?php
+                            if ($_SESSION['liv'] == 10) {
+                            ?>
+                                <td>
+                                    <a onclick="inviaID(this); ottieniDati()" data-toggle="modal" data-target="#modificaLocale" id="<?= $row['ID_Armadietto'] ?>">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+                                    <a onclick="eliminazione(this)" id="<?= $row['ID_Armadietto'] ?>">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </td>
+                            <?php
+                            }
+                            ?>
                         </tr>
                     <?php
                         $x++;

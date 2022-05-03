@@ -5,22 +5,19 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once '../config/database.php';
-include_once '../class/employees.php';
+include_once("/xampp/htdocs/GestionalePHP/class/giacenze.php");
+include_once '/xampp/htdocs/GestionalePHP/config/database.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$item = new Employee($db);
+$oggGiac = new Giacenze($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$item->mail = $data->mail;
+$oggGiac->id = $data->id;
 
-$item->id = $data->id;
-
-if ($item->deleteEmployee()) {
-    echo json_encode("Employee deleted.");
-} else {
-    echo json_encode("Data could not be deleted");
-}
+if ($oggGiac->deleteGiacenza()) {
+    echo json_encode("Siamo entrati");
+} else
+    echo json_encode("Non siamo entrati");

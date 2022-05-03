@@ -7,17 +7,12 @@ class Giacenze
     private $db_table = "giacenze";
     // Columns
     public $id;
-    public $componente;
-    public $sigla;
-    public $valore;
-    public $umValore;
-    public $valore2;
-    public $umValore2;
-    public $note;
-    public $immagine;
-    public $quantitaMin;
-    public $id_categoria;
-    public $id_catalogo;
+    public $posizione;
+    public $nomeCassetto;
+    public $quantita;
+    public $quantitaSpann;
+    public $id_armadietto;
+    public $id_componente;
     // Db connection
     public function __construct($db)
     {
@@ -25,48 +20,33 @@ class Giacenze
     }
 
     // CREATE
-    public function createComponente()
+    public function createGiacenza()
     {
         $sqlQuery = "INSERT INTO " . $this->db_table . "
                     SET
-                        nomeComp = ?,
-                        sigla = ?,
-                        valore = ?,
-                        umValore = ?,
-                        valore2 = ?,
-                        umValore2 = ?,
-                        note = ?,
-                        immagine = ?,
-                        quantitaMin = ?,
-                        ID_Categoria = ?,
-                        ID_Catalogo = ?";
+                        posizione = ?,
+                        nomeCassetto = ?,
+                        quantita = ?,
+                        quantitaSpann = ?,
+                        ID_Armadietto = ?,
+                        ID_Componente = ?";
 
         $stmt = $this->conn->prepare($sqlQuery);
 
         // sanitize
-        $this->componente = htmlspecialchars(strip_tags($this->componente));
-        $this->sigla = htmlspecialchars(strip_tags($this->sigla));
-        $this->valore = htmlspecialchars(strip_tags($this->valore));
-        $this->umValore = htmlspecialchars(strip_tags($this->umValore));
-        $this->valore2 = htmlspecialchars(strip_tags($this->valore2));
-        $this->umValore2 = htmlspecialchars(strip_tags($this->umValore2));
-        $this->note = htmlspecialchars(strip_tags($this->note));
-        $this->immagine = htmlspecialchars(strip_tags($this->immagine));
-        $this->quantitaMin = htmlspecialchars(strip_tags($this->quantitaMin));
-        $this->id_categoria = htmlspecialchars(strip_tags($this->id_categoria));
-        $this->id_catalogo = htmlspecialchars(strip_tags($this->id_catalogo));
+        $this->posizione = htmlspecialchars(strip_tags($this->posizione));
+        $this->nomeCassetto = htmlspecialchars(strip_tags($this->nomeCassetto));
+        $this->quantita = htmlspecialchars(strip_tags($this->quantita));
+        $this->quantitaSpann = htmlspecialchars(strip_tags($this->quantitaSpann));
+        $this->id_armadietto = htmlspecialchars(strip_tags($this->id_armadietto));
+        $this->id_componente = htmlspecialchars(strip_tags($this->id_componente));
 
-        $stmt->bindParam(1, $this->componente);
-        $stmt->bindParam(2, $this->sigla);
-        $stmt->bindParam(3, $this->valore);
-        $stmt->bindParam(4, $this->umValore);
-        $stmt->bindParam(5, $this->valore2);
-        $stmt->bindParam(6, $this->umValore2);
-        $stmt->bindParam(7, $this->note);
-        $stmt->bindParam(8, $this->immagine);
-        $stmt->bindParam(9, $this->quantitaMin);
-        $stmt->bindParam(10, $this->id_categoria);
-        $stmt->bindParam(11, $this->id_catalogo);
+        $stmt->bindParam(1, $this->posizione);
+        $stmt->bindParam(2, $this->nomeCassetto);
+        $stmt->bindParam(3, $this->quantita);
+        $stmt->bindParam(4, $this->quantitaSpann);
+        $stmt->bindParam(5, $this->id_armadietto);
+        $stmt->bindParam(6, $this->id_componente);
 
         if ($stmt->execute()) {
             return true;
@@ -74,34 +54,27 @@ class Giacenze
         return false;
     }
 
-    public function getComponentiPerTable()
+    public function getGiacenze()
     {
         $sqlQuery = "SELECT
-                        ID_Componente, nomeComp, sigla, ID_Categoria, ID_Catalogo
-                      FROM
-                        " . $this->db_table;
-        $stmt = $this->conn->prepare($sqlQuery);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    public function getComponenti()
-    {
-        $sqlQuery = "SELECT
-                        ID_Componente, nomeComp, sigla, valore, umValore, valore2, umValore2, note, immagine, quantitaMin, ID_Categoria, ID_Catalogo
-                      FROM
-                        " . $this->db_table;
-        $stmt = $this->conn->prepare($sqlQuery);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    public function getSingleComponente()
-    {
-        $sqlQuery = "SELECT
-                        nomeComp, sigla, valore, umValore, valore2, umValore2, note, immagine, quantitaMin, ID_Categoria, ID_Catalogo
+                        ID_Giacenza, posizione, nomeCassetto, quantita, quantitaSpann, ID_Armadietto
                       FROM
                         " . $this->db_table . " WHERE ID_Componente = ?";
+        $stmt = $this->conn->prepare($sqlQuery);
+
+        $this->id_componente = htmlspecialchars(strip_tags($this->id_componente));
+        $stmt->bindParam(1, $this->id_componente);
+
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function getSingleGiacenza()
+    {
+        $sqlQuery = "SELECT
+                        posizione, nomeCassetto, quantita, quantitaSpann, ID_Armadietto
+                      FROM
+                        " . $this->db_table . " WHERE ID_Giacenza = ?";
         $stmt = $this->conn->prepare($sqlQuery);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
@@ -109,52 +82,37 @@ class Giacenze
         return $dataRow;
     }
 
-    public function updateComponente()
+    public function updateGiacenza()
     {
         $sqlQuery = "UPDATE
                         " . $this->db_table . "
                     SET
-                        nomeComp = ?, 
-                        sigla = ?,
-                        valore = ?, 
-                        umValore = ?, 
-                        valore2 = ?, 
-                        umValore2 = ?, 
-                        note = ?, 
-                        immagine = ?, 
-                        quantitaMin = ?, 
-                        ID_Categoria = ?, 
-                        ID_Catalogo = ?
+                        posizione = ?,
+                        nomeCassetto = ?,
+                        quantita = ?,
+                        quantitaSpann = ?,
+                        ID_Armadietto = ?,
+                        ID_Componente = ?
                     WHERE 
-                        ID_Componente = ?";
+                        ID_Giacenza = ?";
 
         $stmt = $this->conn->prepare($sqlQuery);
 
-        $this->componente = htmlspecialchars(strip_tags($this->componente));
-        $this->sigla = htmlspecialchars(strip_tags($this->sigla));
-        $this->valore = htmlspecialchars(strip_tags($this->valore));
-        $this->umValore = htmlspecialchars(strip_tags($this->umValore));
-        $this->valore2 = htmlspecialchars(strip_tags($this->valore2));
-        $this->umValore2 = htmlspecialchars(strip_tags($this->umValore2));
-        $this->note = htmlspecialchars(strip_tags($this->note));
-        $this->immagine = htmlspecialchars(strip_tags($this->immagine));
-        $this->quantitaMin = htmlspecialchars(strip_tags($this->quantitaMin));
-        $this->id_categoria = htmlspecialchars(strip_tags($this->id_categoria));
-        $this->id_catalogo = htmlspecialchars(strip_tags($this->id_catalogo));
+        $this->posizione = htmlspecialchars(strip_tags($this->posizione));
+        $this->nomeCassetto = htmlspecialchars(strip_tags($this->nomeCassetto));
+        $this->quantita = htmlspecialchars(strip_tags($this->quantita));
+        $this->quantitaSpann = htmlspecialchars(strip_tags($this->quantitaSpann));
+        $this->id_armadietto = htmlspecialchars(strip_tags($this->id_armadietto));
+        $this->id_componente = htmlspecialchars(strip_tags($this->id_componente));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
-        $stmt->bindParam(1, $this->componente);
-        $stmt->bindParam(2, $this->sigla);
-        $stmt->bindParam(3, $this->valore);
-        $stmt->bindParam(4, $this->umValore);
-        $stmt->bindParam(5, $this->valore2);
-        $stmt->bindParam(6, $this->umValore2);
-        $stmt->bindParam(7, $this->note);
-        $stmt->bindParam(8, $this->immagine);
-        $stmt->bindParam(9, $this->quantitaMin);
-        $stmt->bindParam(10, $this->id_categoria);
-        $stmt->bindParam(11, $this->id_catalogo);
-        $stmt->bindParam(12, $this->id);
+        $stmt->bindParam(1, $this->posizione);
+        $stmt->bindParam(2, $this->nomeCassetto);
+        $stmt->bindParam(3, $this->quantita);
+        $stmt->bindParam(4, $this->quantitaSpann);
+        $stmt->bindParam(5, $this->id_armadietto);
+        $stmt->bindParam(6, $this->id_componente);
+        $stmt->bindParam(7, $this->id);
 
         if ($stmt->execute()) {
             return true;
@@ -162,9 +120,9 @@ class Giacenze
         return false;
     }
 
-    function deleteComponente()
+    function deleteGiacenza()
     {
-        $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE ID_Componente = ?";
+        $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE ID_Giacenza = ?";
         $stmt = $this->conn->prepare($sqlQuery);
 
         $this->id = htmlspecialchars(strip_tags($this->id));

@@ -23,7 +23,13 @@ $datiComponenti = $oggComp->getComponentiPerTable();
     include("../firstNavbar.php");
     ?>
     <nav>
-        <button data-toggle="modal" data-target="#aggiungiComponente">Aggiungi Componente <i class="fa-solid fa-plus"></i></button>
+        <?php
+        if ($_SESSION['liv'] == 10) {
+        ?>
+            <button data-toggle="modal" data-target="#aggiungiComponente">Aggiungi Componente <i class="fa-solid fa-plus"></i></button>
+        <?php
+        }
+        ?>
     </nav>
     <?php
     include("../secondNavbar.php");
@@ -60,12 +66,18 @@ $datiComponenti = $oggComp->getComponentiPerTable();
                             <td> <?= $oggCateg->getSingleCategoria() ?> </td>
                             <td> <?= $oggCatal->getSingleCatalogo() ?> </td>
                             <td>
-                                <a onclick="inviaID(this); ottieniDati()" data-toggle="modal" data-target="#modificaComponente" id="<?= $row['ID_Componente'] ?>">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                                <a onclick="eliminazione(this)" id="<?= $row['ID_Componente'] ?>">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
+                                <?php
+                                if ($_SESSION['liv'] == 10) {
+                                ?>
+                                    <a onclick="inviaID(this); ottieniDati()" data-toggle="modal" data-target="#modificaComponente" id="<?= $row['ID_Componente'] ?>">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+                                    <a onclick="eliminazione(this)" id="<?= $row['ID_Componente'] ?>">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                <?php
+                                }
+                                ?>
                                 <a onclick="visualizza(this)" id="<?= $row['ID_Componente'] ?>">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>

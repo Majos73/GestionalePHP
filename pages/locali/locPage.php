@@ -19,7 +19,13 @@ $datiLocali = $oggLoc->getLocali();
     include("../firstNavbar.php");
     ?>
     <nav>
-        <button data-toggle="modal" data-target="#aggiungiLocale">Nuovo Locale <i class="fa-solid fa-plus"></i></button>
+        <?php
+        if ($_SESSION['liv'] == 10) { ?>
+            <button data-toggle="modal" data-target="#aggiungiLocale">Nuovo Locale <i class="fa-solid fa-plus"></i></button>
+        <?php
+        }
+        ?>
+
     </nav>
     <?php
     include("../secondNavbar.php");
@@ -32,7 +38,11 @@ $datiLocali = $oggLoc->getLocali();
                 <tr>
                     <th>ID</th>
                     <th>Locale</th>
-                    <th>Opzioni</th>
+                    <?php
+                    if ($_SESSION['liv'] == 10) {
+                        echo "<th>Opzioni</th>";
+                    }
+                    ?>
                 </tr>
             </thead>
             <tbody>
@@ -47,14 +57,21 @@ $datiLocali = $oggLoc->getLocali();
                         <tr>
                             <td> <?= $x ?> </td>
                             <td> <?= $row['locale'] ?> </td>
-                            <td>
-                                <a onclick="inviaID(this); ottieniDati()" data-toggle="modal" data-target="#modificaLocale" id="<?= $row['ID_Locale'] ?>">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                                <a onclick="eliminazione(this)" id="<?= $row['ID_Locale'] ?>">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
-                            </td>
+                            <?php
+                            if ($_SESSION['liv'] == 10) {
+                            ?>
+                                <td>
+                                    <a onclick="inviaID(this); ottieniDati()" data-toggle="modal" data-target="#modificaLocale" id="<?= $row['ID_Locale'] ?>">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+                                    <a onclick="eliminazione(this)" id="<?= $row['ID_Locale'] ?>">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </td>
+                            <?php
+                            }
+                            ?>
+
                         </tr>
                     <?php
                         $x++;
@@ -199,6 +216,7 @@ $datiLocali = $oggLoc->getLocali();
         }
 
         function eliminazione(element) {
+            if(confirm("Sei sicuro di voler eliminare il locale?")){
             var xhttp = new XMLHttpRequest();
 
             idLocale = element.id;
@@ -221,6 +239,7 @@ $datiLocali = $oggLoc->getLocali();
             setTimeout(function() {
                 location.href = "./locPage.php";
             }, 500);
+        }
         }
 
         function ottieniDati() {

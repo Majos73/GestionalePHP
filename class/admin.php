@@ -16,6 +16,23 @@ class Admin
     {
         $this->conn = $db;
     }
+
+    public function controlMail(){
+        $sqlQuery = "SELECT
+                        liv
+                      FROM
+                        " . $this->db_table . "
+                    WHERE 
+                       mail = ?
+                    LIMIT 0,1";
+                    
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->bindParam(1, $this->mail);
+        $stmt->execute();
+        $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $dataRow['liv'];
+    }
+
     public function getControlAdmin()
     {
         $sqlQuery = "SELECT
